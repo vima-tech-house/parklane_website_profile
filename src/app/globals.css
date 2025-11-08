@@ -8,10 +8,6 @@
     --font-playfair: 'Playfair Display', Georgia, serif;
   }
 
-  * {
-    @apply border-border;
-  }
-
   html {
     @apply scroll-smooth;
   }
@@ -64,6 +60,10 @@
 
   .gradient-overlay {
     @apply absolute inset-0 bg-gradient-to-br from-dark-900/80 via-dark-900/70 to-dark-900/60;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
   }
 }
 

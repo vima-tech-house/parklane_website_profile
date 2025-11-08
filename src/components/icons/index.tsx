@@ -115,6 +115,23 @@ export const CheckIcon: React.FC<IconProps> = ({ className = '', size = 24 }) =>
   </svg>
 );
 
+export const CheckCircle: React.FC<IconProps> = ({ className = '', size = 24 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+    <polyline points="22 4 12 14.01 9 11.01" />
+  </svg>
+);
+
 export const TruckIcon: React.FC<IconProps> = ({ className = '', size = 24 }) => (
   <svg
     width={size}
@@ -423,3 +440,67 @@ export const DollarIcon: React.FC<IconProps> = ({ className = '', size = 24 }) =
     <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
   </svg>
 );
+
+export const ChevronDownIcon: React.FC<IconProps> = ({ className = '', size = 24 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+export const ZapIcon: React.FC<IconProps> = ({ className = '', size = 24 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+  </svg>
+);
+
+// Default export object containing all icons
+const Icons = {
+  Logo,
+  Menu: MenuIcon,
+  Close: CloseIcon,
+  Globe: GlobeIcon,
+  Shield: ShieldIcon,
+  Check: CheckIcon,
+  Truck: TruckIcon,
+  Plane: PlaneIcon,
+  Ship: ShipIcon,
+  Package: PackageIcon,
+  Target: TargetIcon,
+  Award: AwardIcon,
+  Users: UsersIcon,
+  Settings: SettingsIcon,
+  Handshake: HandshakeIcon,
+  Lightbulb: LightbulbIcon,
+  Mail: MailIcon,
+  Phone: PhoneIcon,
+  MapPin: MapPinIcon,
+  ArrowRight: ArrowRightIcon,
+  Building: BuildingIcon,
+  Layers: LayersIcon,
+  Dollar: DollarIcon,
+  ChevronDown: ChevronDownIcon,
+  Zap: ZapIcon,
+  CheckCircle : CheckCircle
+};
+
+export default Icons;
