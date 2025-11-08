@@ -56,13 +56,8 @@ export default function Navbar() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Logo
-                size={45}
-                className={cn(
-                  'transition-colors duration-300',
-                  scrolled ? 'text-primary-600' : 'text-white'
-                )}
-              />
+                           <Logo size={45} className="text-primary-400 group-hover:scale-110 transition-transform duration-300" />
+             
             </motion.div>
             <div className="hidden sm:block">
               <div
