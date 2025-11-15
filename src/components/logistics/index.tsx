@@ -1,76 +1,35 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import Icons from '../icons';
+import { useRef, useState } from 'react';
 
 const Logistics = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const logisticsServices = [
     {
-      icon: Icons.Plane,
+      icon: '✈️',
       title: 'Air Freight',
-      description: 'Fast and secure delivery for urgent project needs',
-      features: [
-        'Express delivery options',
-        'Temperature-controlled transport',
-        'Real-time flight tracking',
-        'Priority customs clearance',
-        'Door-to-door service',
-      ],
-      gradient: 'from-sky-500 to-blue-600',
+      description: 'Fast and secure delivery for urgent project needs with priority handling and express customs clearance.',
+      image: 'https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?w=800&q=85',
+      features: ['Express Delivery', 'Real-time Tracking', 'Priority Customs', 'Temperature Control'],
     },
     {
-      icon: Icons.Truck,
+      icon: '🚛',
       title: 'Land Transport',
-      description: 'Reliable trucking and rail services across regions',
-      features: [
-        'Regional distribution network',
-        'Cross-border transport',
-        'Specialized heavy equipment hauling',
-        'Last-mile delivery',
-        'Route optimization',
-      ],
-      gradient: 'from-orange-500 to-red-600',
+      description: 'Reliable trucking and rail services across regions with specialized equipment for heavy machinery.',
+      image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=85',
+      features: ['Cross-Border', 'Heavy Equipment', 'Last-Mile Delivery', 'Route Optimization'],
     },
     {
-      icon: Icons.Ship,
+      icon: '🚢',
       title: 'Sea Freight',
-      description: 'Cost-effective and bulk shipping with end-to-end tracking',
-      features: [
-        'Full container load (FCL)',
-        'Less than container load (LCL)',
-        'Roll-on/Roll-off services',
-        'Port-to-port delivery',
-        'Customs brokerage',
-      ],
-      gradient: 'from-cyan-500 to-teal-600',
-    },
-  ];
-
-  const logisticsFeatures = [
-    {
-      icon: Icons.Globe,
-      title: 'Global Network',
-      description: 'Strategic partnerships with top-tier logistics providers worldwide',
-    },
-    {
-      icon: Icons.Shield,
-      title: 'Cargo Insurance',
-      description: 'Comprehensive coverage for all shipments from origin to destination',
-    },
-    {
-      icon: Icons.CheckCircle,
-      title: 'Real-Time Tracking',
-      description: 'Advanced tracking systems for complete shipment visibility',
-    },
-    {
-      icon: Icons.Users,
-      title: 'Dedicated Support',
-      description: '24/7 logistics coordination and customer service team',
+      description: 'Cost-effective bulk shipping with comprehensive tracking and port-to-port delivery worldwide.',
+      image: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&q=85',
+      features: ['FCL & LCL', 'Bulk Shipping', 'Port-to-Port', 'Customs Brokerage'],
     },
   ];
 
@@ -85,191 +44,212 @@ const Logistics = () => {
   };
 
   const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
+    hidden: { y: 40, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.6,
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1] as const,
       },
     },
   };
 
   return (
-    <section id="logistics" ref={ref} className="section-padding bg-white">
-      <div className="container-custom">
+    <section id="logistics" ref={ref} className="relative py-20 lg:py-28 bg-white overflow-hidden">
+      {/* Subtle Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 2px 2px, rgba(251, 191, 36, 0.4) 1px, transparent 0)`,
+          backgroundSize: '50px 50px',
+        }} />
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
           {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <span className="inline-block px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-4">
-              Logistics Services
-            </span>
-            <h2 className="heading-2 mb-6">
-              Comprehensive{' '}
-              <span className="text-gradient">Supply Chain Solutions</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              PLM offers integrated logistics solutions via air, land, and sea ensuring efficient and safe delivery to project sites across the globe
-            </p>
+          <motion.div variants={itemVariants} className="mb-16 lg:mb-20">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-0.5 bg-gradient-to-r from-primary-500 to-primary-600"></div>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-600 font-semibold tracking-wider uppercase text-sm">
+                Logistics Services
+              </span>
+            </div>
+            <div className="grid lg:grid-cols-2 gap-8 items-end">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
+                Comprehensive <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600">
+                  Supply Chain Solutions
+                </span>
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                PLM offers integrated logistics solutions via air, land, and sea—ensuring efficient and safe delivery to project sites across the globe with top-tier partners.
+              </p>
+            </div>
           </motion.div>
 
-          {/* Main Logistics Services */}
-          <div className="grid lg:grid-cols-3 gap-8 mb-16">
+          {/* Main Services Grid */}
+          <div className="grid lg:grid-cols-3 gap-8 mb-20">
             {logisticsServices.map((service, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100"
+                onHoverStart={() => setHoveredCard(index)}
+                onHoverEnd={() => setHoveredCard(null)}
+                className="group relative"
               >
-                {/* Service Header */}
-                <div className={`bg-gradient-to-br ${service.gradient} p-8 text-white relative overflow-hidden`}>
-                  <div className="absolute top-0 right-0 w-32 h-32 transform translate-x-8 -translate-y-8">
-                    <div className="absolute inset-0 bg-white/10 rounded-full" />
-                  </div>
-                  <div className="relative">
+                <div className="relative h-full bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-200">
+                  {/* Image Section */}
+                  <div className="relative h-64 overflow-hidden">
                     <motion.div
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl mb-4"
+                      animate={{
+                        scale: hoveredCard === index ? 1.1 : 1,
+                      }}
+                      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                      className="w-full h-full"
                     >
-                      <service.icon size={32} />
+                      <div
+                        className="w-full h-full bg-cover bg-center"
+                        style={{
+                          backgroundImage: `url('${service.image}')`,
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                     </motion.div>
-                    <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
-                    <p className="text-white/90">{service.description}</p>
-                  </div>
-                </div>
 
-                {/* Service Features */}
-                <div className="p-8">
-                  <ul className="space-y-3">
-                    {service.features.map((feature, idx) => (
-                      <motion.li
-                        key={idx}
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={isInView ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
-                        transition={{ delay: 0.3 + idx * 0.1 }}
-                        className="flex items-start"
-                      >
-                        <Icons.CheckCircle className="text-primary-600 mr-3 flex-shrink-0 mt-0.5" size={18} />
-                        <span className="text-gray-700">{feature}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
+                    {/* Title Overlay */}
+                    <div className="absolute bottom-6 left-6 right-6">
+                      <h3 className="text-2xl font-semibold text-white mb-1">
+                        {service.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="p-8">
+                    <p className="text-slate-600 leading-relaxed mb-6">
+                      {service.description}
+                    </p>
+
+                    {/* Features */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {service.features.map((feature, idx) => (
+                        <motion.div
+                          key={idx}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+                          transition={{ delay: 0.3 + idx * 0.1 }}
+                          className="flex items-center gap-2"
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary-500"></div>
+                          <span className="text-sm text-slate-700 font-medium">{feature}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Hover Border Effect */}
+                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary-500/40  transition-all duration-500 pointer-events-none" />
                 </div>
               </motion.div>
             ))}
           </div>
 
-          {/* Logistics Features Grid */}
-          <motion.div variants={itemVariants} className="bg-gray-50 rounded-2xl p-8 md:p-12 mb-16">
-            <h3 className="text-3xl font-bold text-dark-900 mb-10 text-center">
-              Why Choose PLM Logistics
+          {/* Process Steps */}
+          {/* <motion.div variants={itemVariants} className="mb-20">
+            <h3 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-12 text-center">
+              Our Logistics Process
             </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {logisticsFeatures.map((feature, index) => (
+            <div className="grid md:grid-cols-4 gap-6">
+              {[
+                { step: '01', title: 'Order Confirmation', desc: 'Documentation & preparation' },
+                { step: '02', title: 'Route Planning', desc: 'Optimal path selection' },
+                { step: '03', title: 'Transit & Tracking', desc: 'Real-time monitoring' },
+                { step: '04', title: 'Safe Delivery', desc: 'On-site delivery & support' },
+              ].map((item, index) => (
                 <motion.div
                   key={index}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
-                  transition={{ delay: 0.5 + index * 0.1 }}
+                  variants={itemVariants}
                   whileHover={{ scale: 1.05 }}
-                  className="text-center"
+                  className="relative"
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mb-4">
-                    <feature.icon className="text-primary-600" size={28} />
+                  <div className="p-6 rounded-2xl bg-white border-2 border-slate-200 hover:border-primary-500 transition-all duration-300">
+                    <div className="text-6xl font-bold text-primary-500/20 mb-4">{item.step}</div>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h4>
+                    <p className="text-sm text-slate-600">{item.desc}</p>
                   </div>
-                  <h4 className="font-bold text-dark-900 mb-2">{feature.title}</h4>
-                  <p className="text-sm text-gray-600">{feature.description}</p>
+                  {index < 3 && (
+                    <div className="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+                      <svg className="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  )}
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </motion.div> */}
 
-          {/* Process Timeline */}
-          <motion.div variants={itemVariants}>
-            <h3 className="text-3xl font-bold text-dark-900 mb-10 text-center">
-              Our Logistics Process
-            </h3>
-            <div className="relative">
-              {/* Timeline Line */}
-              <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-primary-200 transform -translate-x-1/2" />
-
-              <div className="space-y-12">
-                {[
-                  {
-                    step: 1,
-                    title: 'Order Confirmation',
-                    description: 'We confirm your order details and prepare shipping documentation',
-                    icon: Icons.CheckCircle,
-                  },
-                  {
-                    step: 2,
-                    title: 'Route Planning',
-                    description: 'Optimal route selection based on urgency, cost, and cargo type',
-                    icon: Icons.Target,
-                  },
-                  {
-                    step: 3,
-                    title: 'Transit & Tracking',
-                    description: 'Real-time monitoring with regular status updates',
-                    icon: Icons.Globe,
-                  },
-                  {
-                    step: 4,
-                    title: 'Delivery & Support',
-                    description: 'Safe delivery to your site with post-delivery assistance',
-                    icon: Icons.Package,
-                  },
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ x: index % 2 === 0 ? -50 : 50, opacity: 0 }}
-                    animate={isInView ? { x: 0, opacity: 1 } : { x: index % 2 === 0 ? -50 : 50, opacity: 0 }}
-                    transition={{ delay: 0.6 + index * 0.15 }}
-                    className={`flex items-center ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-                  >
-                    <div className={`flex-1 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
-                      <div className="bg-white rounded-xl p-6 shadow-lg">
-                        <div className={`inline-flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg mb-4 ${index % 2 === 0 ? 'md:ml-auto' : ''}`}>
-                          <item.icon className="text-primary-600" size={24} />
-                        </div>
-                        <h4 className="text-xl font-bold text-dark-900 mb-2">{item.title}</h4>
-                        <p className="text-gray-600">{item.description}</p>
-                      </div>
-                    </div>
-                    <div className="hidden md:flex items-center justify-center w-16 h-16 bg-primary-600 text-white rounded-full font-bold text-xl z-10 flex-shrink-0">
-                      {item.step}
-                    </div>
-                    <div className="flex-1" />
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* CTA Section */}
+          {/* CTA Banner */}
           <motion.div
             variants={itemVariants}
-            className="mt-16 bg-gradient-to-br from-dark-900 to-dark-800 rounded-2xl p-12 text-center text-white"
+            className="relative  overflow-hidden"
           >
-            <h3 className="text-3xl font-bold mb-4">Ready to Streamline Your Supply Chain?</h3>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Partner with PLM for reliable, efficient, and cost-effective logistics solutions
-            </p>
-            <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              href="#contact"
-              className="btn-primary inline-flex items-center"
-            >
-              Get Started
-              <Icons.ArrowRight className="ml-2" size={20} />
-            </motion.a>
+            {/* Background Image */}
+            <div className="absolute inset-0">
+              <div
+                className="w-full h-full bg-cover bg-center"
+                style={{
+                  backgroundImage: `url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=85')`,
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/90 to-slate-900/80" />
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 p-12 lg:p-16 text-center">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={isInView ? { scale: 1 } : { scale: 0 }}
+                transition={{ delay: 0.5, type: 'spring', stiffness: 200 }}
+                className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 mb-8"
+              >
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </motion.div>
+              <h3 className="text-3xl lg:text-5xl font-bold text-white mb-6">
+                Ready to Streamline Your Supply Chain?
+              </h3>
+              <p className=" text-slate-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Partner with PLM for reliable, efficient, and cost-effective logistics solutions that deliver results across continents.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <motion.a
+                  href="#contact"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-lg shadow-xl hover:shadow-primary-500/50 transition-all duration-300"
+                >
+                  <span>Get Started</span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </motion.a>
+                <motion.a
+                  href="#services"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-slate-900 transition-all duration-300"
+                >
+                  <span>View Services</span>
+                </motion.a>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       </div>

@@ -3,68 +3,36 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import Icons from '../icons';
 
 const WhyPLM = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  const benefits = [
+  const reasons = [
     {
-      icon: Icons.Zap,
-      title: 'Cost Efficiency',
-      description: 'Transparent and lean sourcing delivers maximum return on investment',
-      details: [
-        'Direct OEM relationships eliminate markups',
-        'Competitive global pricing',
-        'Optimized logistics costs',
-        'No hidden fees',
-      ],
-      color: 'blue',
+      title: 'Global Sourcing Network',
+      description: 'Access to verified OEM manufacturers across continents, ensuring competitive pricing and authentic quality materials for every project.',
     },
     {
-      icon: Icons.Handshake,
-      title: 'Reliability',
-      description: 'Only trusted suppliers are included in our network, ensuring peace of mind',
-      details: [
-        'Verified supplier credentials',
-        'Proven track records',
-        'Consistent delivery timelines',
-        'Dependable partnerships',
-      ],
-      color: 'primary',
+      title: 'Direct OEM Relationships',
+      description: 'We eliminate middlemen by working directly with manufacturers, guaranteeing product authenticity and reducing procurement costs significantly.',
     },
     {
-      icon: Icons.Award,
-      title: 'Quality Assurance',
-      description: 'Products are sourced to match international quality standards',
-      details: [
-        'ISO certified suppliers',
-        'Rigorous quality checks',
-        'Industry-standard compliance',
-        'Material authenticity guarantee',
-      ],
-      color: 'emerald',
+      title: 'Rigorous Quality Standards',
+      description: 'Every supplier undergoes stringent vetting and continuous performance monitoring to maintain international quality benchmarks.',
     },
     {
-      icon: Icons.Lightbulb,
-      title: 'Tailored Solutions',
-      description: 'Every client benefits from custom sourcing strategies based on project-specific requirements',
-      details: [
-        'Project-specific analysis',
-        'Flexible procurement options',
-        'Customized delivery schedules',
-        'Dedicated account management',
-      ],
-      color: 'purple',
+      title: 'Cost-Effective Solutions',
+      description: 'Transparent pricing with no hidden fees. Our lean supply chain delivers maximum value while maintaining uncompromised quality standards.',
     },
-  ];
-
-  const stats = [
-    { value: '50+', label: 'Global Partners', icon: Icons.Globe },
-    { value: '100%', label: 'Quality Guarantee', icon: Icons.Shield },
-    { value: '24/7', label: 'Customer Support', icon: Icons.Users },
-    { value: '15+', label: 'Years Experience', icon: Icons.Award },
+    {
+      title: 'Reliable Delivery',
+      description: 'Comprehensive logistics management via air, land, and sea ensures your materials arrive on time, every time, anywhere in the world.',
+    },
+    {
+      title: 'Dedicated Support',
+      description: 'Expert procurement specialists and responsive customer service provide personalized solutions tailored to your project requirements.',
+    },
   ];
 
   const containerVariants = {
@@ -72,128 +40,95 @@ const WhyPLM = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.1,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
+    hidden: { y: 30, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         duration: 0.6,
+        ease: [0.22, 1, 0.36, 1] as const,
       },
     },
   };
 
   return (
-    <section id="why-plm" ref={ref} className="section-padding bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="container-custom">
+    <section 
+      id="why-plm" 
+      ref={ref} 
+      className="relative py-20 lg:py-32 bg-black overflow-hidden"
+    >
+      {/* PLM Background Text */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+        <div className="text-[20rem] lg:text-[30rem] font-bold text-white/60 select-none">
+          PLM
+        </div>
+      </div>
+
+      {/* Subtle Grid Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(rgba(251, 191, 36, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(251, 191, 36, 0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+        }} />
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
           {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <span className="inline-block px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-4">
-              Why Choose PLM
-            </span>
-            <h2 className="heading-2 mb-6">
-              The PLM{' '}
-              <span className="text-gradient">Advantage</span>
+          <motion.div variants={itemVariants} className="mb-16 lg:mb-20">
+            <h2 className="text-4xl sm:text-5xl cursor-pointer lg:text-6xl font-bold text-white mb-6">
+              Why choose{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 via-primary-500 to-primary-500">
+                Parklane
+              </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our core value "Streamline Global Business" drives every decision, integrating global resources to enhance project outcomes
+            <p className=" text-slate-400 max-w-4xl leading-relaxed">
+              Parklane Materials combines elite global sourcing, rigorous quality control, and cutting-edge logistics expertise to deliver unmatched procurement solutions across construction and industrial sectors.
             </p>
           </motion.div>
 
-          {/* Stats Grid */}
-          <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ scale: 0, rotate: -10 }}
-                animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -10 }}
-                transition={{ delay: 0.2 + index * 0.1, type: 'spring' }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="bg-white rounded-xl p-6 shadow-lg text-center"
-              >
-                <div className="inline-flex items-center justify-center w-14 h-14 bg-primary-100 rounded-full mb-4">
-                  <stat.icon className="text-primary-600" size={28} />
-                </div>
-                <div className="text-3xl font-bold text-dark-900 mb-2">{stat.value}</div>
-                <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Benefits Grid */}
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
-            {benefits.map((benefit, index) => (
+          {/* Reasons Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {reasons.map((reason, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden"
+                whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                className="group relative bg-slate-800/50 backdrop-blur-sm border border-slate-700/50  p-8 hover:bg-slate-800/80 hover:border-amber-500/50 transition-all duration-500"
               >
-                <div className="p-8">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 bg-${benefit.color}-100 rounded-xl mb-6`}>
-                    <benefit.icon className={`text-${benefit.color}-600`} size={32} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-dark-900 mb-3">{benefit.title}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{benefit.description}</p>
-                  <ul className="space-y-3">
-                    {benefit.details.map((detail, idx) => (
-                      <motion.li
-                        key={idx}
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={isInView ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
-                        transition={{ delay: 0.4 + idx * 0.1 }}
-                        className="flex items-center text-gray-700"
-                      >
-                        <Icons.CheckCircle className="text-primary-600 mr-3 flex-shrink-0" size={20} />
-                        <span>{detail}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
+                {/* Gradient Glow on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-yellow-500/0 to-amber-600/0 group-hover:from-amber-500/5 group-hover:via-yellow-500/5 group-hover:to-amber-600/5 rounded-2xl transition-all duration-500" />
+                
+                <div className="relative z-10">
+                  {/* Number Badge */}
+                  {/* <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white font-bold text-sm mb-6 group-hover:scale-110 transition-transform duration-300">
+                    {(index + 1).toString().padStart(2, '0')}
+                  </div> */}
+
+                  <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-amber-400 group-hover:to-yellow-500 transition-all duration-300">
+                    {reason.title}
+                  </h3>
+                  
+                  <p className="text-slate-400 leading-relaxed text-sm">
+                    {reason.description}
+                  </p>
                 </div>
+
+                {/* Corner Accent */}
+                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-amber-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </motion.div>
             ))}
           </div>
-
-          {/* Core Value Highlight */}
-          <motion.div
-            variants={itemVariants}
-            className="relative bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-12 md:p-16 text-white overflow-hidden"
-          >
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute inset-0" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-              }} />
-            </div>
-
-            <div className="relative z-10 text-center max-w-4xl mx-auto">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={isInView ? { scale: 1 } : { scale: 0 }}
-                transition={{ delay: 0.5, type: 'spring' }}
-                className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full mb-6"
-              >
-                <Icons.Target className="text-white" size={40} />
-              </motion.div>
-              <h3 className="text-4xl font-bold mb-6 font-display">Our Core Value</h3>
-              <p className="text-3xl font-display italic mb-8 leading-relaxed">
-                "Streamline Global Business"
-              </p>
-              <p className="text-xl text-white/90 leading-relaxed">
-                This ethos drives PLM's strategy—integrating global resources, enhancing project outcomes, and delivering smarter procurement experiences to construction professionals worldwide.
-              </p>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
     </section>

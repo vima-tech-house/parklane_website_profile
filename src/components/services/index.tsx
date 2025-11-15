@@ -1,8 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Icons from '../icons';
 
 const Services = () => {
@@ -11,61 +11,71 @@ const Services = () => {
 
   const services = [
     {
-      icon: Icons.Globe,
-      title: 'Global Sourcing Power',
-      description: 'With a robust global network, PLM identifies and negotiates the most competitive pricing across continents—ensuring that your project budget is maximized without compromising on quality.',
-      features: [
-        'Multi-continent supplier network',
-        'Competitive price negotiation',
-        'Budget optimization',
-        'Market intelligence',
+      title: 'General Supply',
+      description: 'Premium construction equipment and materials sourced globally. From generators to heavy machinery, we provide comprehensive solutions for all your project needs.',
+      images: [
+        'https://www.tractafric-equipment.com/tae_images/6532845cc68aaVJU.jpg',
+        'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=85',
+        'https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=800&q=85',
       ],
-      gradient: 'from-blue-500 to-blue-700',
+      details: ['Power Generators', 'Construction Equipment', 'Building Materials', 'Industrial Tools'],
     },
     {
-      icon: Icons.Package,
-      title: 'OEM Direct Access',
-      description: 'We work directly with Original Equipment Manufacturers (OEMs), eliminating unnecessary layers in the supply chain. This guarantees authenticity, enhances service quality, and reduces costs.',
-      features: [
-        'Direct manufacturer relationships',
-        'Guaranteed authenticity',
-        'Enhanced service quality',
-        'Reduced intermediary costs',
+      title: 'Diesel Supply',
+      description: 'Reliable fuel delivery services for industrial and commercial operations. We ensure consistent, high-quality diesel supply with flexible scheduling and competitive pricing.',
+      images: [
+        'https://images.pexels.com/photos/34612258/pexels-photo-34612258.jpeg',
+        'https://yournrg.co.uk/media/vi1fwcgx/homepage-commercial-products.png',
+        'https://sc04.alicdn.com/kf/H8d7c3c359eb84db6885055772b35f3b8T.png',
       ],
-      gradient: 'from-primary-500 to-primary-700',
+      details: ['Bulk Diesel Delivery', 'Storage Solutions', 'Fleet Fueling', 'Emergency Supply'],
     },
     {
-      icon: Icons.Shield,
-      title: 'Supplier Vetting & Verification',
-      description: 'Every supplier must pass through PLM\'s stringent due diligence process, ensuring only the most credible and reliable partners join our network.',
-      features: [
-        'Business credibility checks',
-        'Track record verification',
-        'Quality standards assessment',
-        'After-sales service evaluation',
+      title: 'Cement Supply',
+      description: 'Quality cement and building materials from certified manufacturers. We provide comprehensive cement solutions for projects of all scales with guaranteed quality standards.',
+      images: [
+        'https://images.pexels.com/photos/12032967/pexels-photo-12032967.jpeg',
+        'https://images.pexels.com/photos/129544/pexels-photo-129544.jpeg',
+        'https://www.financialafrik.com/wp-content/uploads/2021/01/Photo-camion-de-livrant-le-ciment-au-mali.jpg',
       ],
-      gradient: 'from-emerald-500 to-emerald-700',
+      details: ['Portland Cement', 'Ready-Mix Concrete', 'Specialty Cement', 'Bulk Orders'],
     },
     {
-      icon: Icons.Award,
-      title: 'Graded Supplier Network',
-      description: 'All suppliers in our ecosystem are continuously graded on performance, reliability, and material quality—ensuring consistent value delivery across all projects.',
-      features: [
-        'Continuous performance monitoring',
-        'Reliability scoring',
-        'Quality consistency tracking',
-        'Regular supplier audits',
+      title: 'Coal Supply',
+      description: 'Efficient coal supply chain management for industrial energy needs. Sourced from verified mines and delivered with precision logistics for uninterrupted operations.',
+      images: [
+        'https://www.orfonline.org/public/uploads/posts/image/Coal-Shortage.jpg',
+        'https://images.pexels.com/photos/10421760/pexels-photo-10421760.jpeg',
+        'https://images.pexels.com/photos/23540605/pexels-photo-23540605.jpeg',
       ],
-      gradient: 'from-purple-500 to-purple-700',
+      details: ['Industrial Coal', 'Energy Coal', 'Bulk Transport', 'Quality Certified'],
     },
   ];
+
+  const [activeImageIndices, setActiveImageIndices] = useState(
+    services.map(() => 0)
+  );
+
+  useEffect(() => {
+    const intervals = services.map((service, serviceIndex) => {
+      return setInterval(() => {
+        setActiveImageIndices((prev) => {
+          const newIndices = [...prev];
+          newIndices[serviceIndex] = (newIndices[serviceIndex] + 1) % service.images.length;
+          return newIndices;
+        });
+      }, 4000 + serviceIndex * 500);
+    });
+
+    return () => intervals.forEach(clearInterval);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.2,
       },
     },
   };
@@ -76,114 +86,163 @@ const Services = () => {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.6,
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1] as const,
       },
     },
   };
 
+  const goToImage = (serviceIndex: number, imageIndex: number) => {
+    setActiveImageIndices((prev) => {
+      const newIndices = [...prev];
+      newIndices[serviceIndex] = imageIndex;
+      return newIndices;
+    });
+  };
+
   return (
-    <section id="services" ref={ref} className="section-padding bg-white">
-      <div className="container-custom">
+    <section id="services" ref={ref} className="relative py-20 lg:py-28 bg-slate-50 overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fbbf24' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }} />
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
           {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <span className="inline-block px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-4">
-              Our Approach
-            </span>
-            <h2 className="heading-2 mb-6">
-              Comprehensive{' '}
-              <span className="text-gradient">Sourcing Solutions</span>
+          <motion.div variants={itemVariants} className="mb-16">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-0.5 bg-gradient-to-r from-primary-900 to-primary-900"></div>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-600 font-semibold tracking-wider uppercase text-sm">
+                What We Do
+              </span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 max-w-3xl">
+              Premium Materials & <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-500">
+                Supply Solutions
+              </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We provide end-to-end procurement services backed by rigorous quality standards and global supplier networks
+            <p className="text-lg text-slate-600 max-w-3xl leading-relaxed">
+              At Parklane Materials, we don't just pour concrete—we lay the groundwork for success. Whether you're building an industrial site, commercial space, or residential project, our premium supply services are engineered for reliability and excellence.
             </p>
           </motion.div>
 
           {/* Services Grid */}
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
-            {services.map((service, index) => (
+          <div className="">
+            {services.map((service, serviceIndex) => (
               <motion.div
-                key={index}
+                key={serviceIndex}
                 variants={itemVariants}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden border border-gray-100"
+                className={`grid lg:grid-cols-2 gap-0 bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 ${
+                  serviceIndex % 2 === 1 ? 'lg:grid-flow-dense' : ''
+                }`}
               >
-                {/* Card Header */}
-                <div className={`bg-gradient-to-br ${service.gradient} p-8 text-white relative overflow-hidden`}>
-                  <div className="absolute top-0 right-0 w-32 h-32 transform translate-x-8 -translate-y-8">
-                    <div className="absolute inset-0 bg-white/10 rounded-full" />
-                  </div>
-                  <div className="relative">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl mb-4">
-                      <service.icon size={32} />
+                {/* Text Content */}
+                <div 
+                  className={`p-8 lg:p-12 flex flex-col justify-center ${
+                    serviceIndex % 2 === 1 ? 'lg:col-start-2' : ''
+                  }`}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, x: serviceIndex % 2 === 0 ? -30 : 30 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: serviceIndex % 2 === 0 ? -30 : 30 }}
+                    transition={{ delay: 0.2 + serviceIndex * 0.1, duration: 0.6 }}
+                  >
+                    <h3 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4 uppercase tracking-tight">
+                      {service.title}
+                    </h3>
+                    <p className="text-slate-600 text-base lg:text-lg leading-relaxed mb-8">
+                      {service.description}
+                    </p>
+
+                    {/* Service Details */}
+                    <div className="grid grid-cols-2 gap-3 mb-8">
+                      {service.details.map((detail, idx) => (
+                        <motion.div
+                          key={idx}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                          transition={{ delay: 0.4 + idx * 0.1 }}
+                          className="flex items-center gap-2"
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary-400 to-primary-400"></div>
+                          <span className="text-sm text-slate-700 font-medium">{detail}</span>
+                        </motion.div>
+                      ))}
                     </div>
-                    <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
-                    <p className="text-white/90 leading-relaxed">{service.description}</p>
-                  </div>
+
+                    <motion.a
+                      href="#contact"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-400 to-primary-400 text-white font-semibold rounded-lg shadow-lg hover:shadow-primary-500 transition-all duration-300 w-fit"
+                    >
+                      <span>Learn More</span>
+                      <Icons.ArrowRight size={18} />
+                    </motion.a>
+                  </motion.div>
                 </div>
 
-                {/* Card Body */}
-                <div className="p-8">
-                  <h4 className="font-bold text-dark-900 mb-4 flex items-center">
-                    <Icons.CheckCircle className="text-primary-600 mr-2" size={20} />
-                    Key Benefits
-                  </h4>
-                  <ul className="space-y-3">
-                    {service.features.map((feature, idx) => (
-                      <motion.li
-                        key={idx}
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={isInView ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
-                        transition={{ delay: 0.3 + idx * 0.1 }}
-                        className="flex items-start"
-                      >
-                        <span className="flex-shrink-0 w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 mr-3" />
-                        <span className="text-gray-700">{feature}</span>
-                      </motion.li>
+                {/* Image Slider */}
+                <div 
+                  className={`relative h-[400px] lg:h-[500px] ${
+                    serviceIndex % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''
+                  }`}
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeImageIndices[serviceIndex]}
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute inset-0"
+                    >
+                      <div
+                        className="w-full h-full bg-cover bg-center"
+                        style={{
+                          backgroundImage: `url('${service.images[activeImageIndices[serviceIndex]]}')`,
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Image Navigation Dots */}
+                  <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+                    {service.images.map((_, imageIndex) => (
+                      <button
+                        key={imageIndex}
+                        onClick={() => goToImage(serviceIndex, imageIndex)}
+                        className={`h-2 rounded-full transition-all duration-300 ${
+                          activeImageIndices[serviceIndex] === imageIndex
+                            ? 'w-8 bg-white'
+                            : 'w-2 bg-white/50 hover:bg-white/75'
+                        }`}
+                        aria-label={`Go to image ${imageIndex + 1}`}
+                      />
                     ))}
-                  </ul>
+                  </div>
+
+                  {/* Service Badge */}
+                  <div className="absolute top-6 left-6 z-10">
+                    <div className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full">
+                      <span className="text-white font-semibold text-sm">
+                        {serviceIndex + 1} / {services.length}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
-
-          {/* Process Steps */}
-          <motion.div variants={itemVariants} className="bg-gray-50 rounded-2xl p-8 md:p-12">
-            <h3 className="text-3xl font-bold text-dark-900 mb-8 text-center">
-              Our Procurement Process
-            </h3>
-            <div className="grid md:grid-cols-4 gap-6">
-              {[
-                { step: '01', title: 'Requirements Analysis', desc: 'Understanding your specific needs' },
-                { step: '02', title: 'Global Sourcing', desc: 'Identifying optimal suppliers' },
-                { step: '03', title: 'Quality Verification', desc: 'Rigorous vetting process' },
-                { step: '04', title: 'Delivery & Support', desc: 'End-to-end logistics' },
-              ].map((step, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
-                  className="relative"
-                >
-                  <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
-                    <div className="text-5xl font-bold text-primary-200 mb-4">{step.step}</div>
-                    <h4 className="font-bold text-dark-900 mb-2">{step.title}</h4>
-                    <p className="text-sm text-gray-600">{step.desc}</p>
-                  </div>
-                  {index < 3 && (
-                    <div className="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2">
-                      <Icons.ArrowRight className="text-primary-300" size={24} />
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </motion.div>
       </div>
     </section>
